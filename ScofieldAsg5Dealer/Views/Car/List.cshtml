@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Car List";
+}
+
+<h1>Car List</h1>
+<div>
+    <h3>Search cars by make/model:</h3>
+    <form method="post" asp-controller="Car" asp-action="Search">
+        <input type="text" name="id" />
+        <input type="submit" value="Search" />
+    </form>
+</div>
+
+<table class="table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="List" asp-route-orderby="id">ID</a>
+            </th>
+            <th>
+                <a asp-action="List" asp-route-orderby="year">Year</a>
+            </th>
+            <th>
+                <a asp-action="List" asp-route-orderby="make">Make and Model</a>
+            </th>
+
+            <th>
+                <a asp-action="List" asp-route-orderby="price">Price</a>
+            </th>
+            <th>
+                <a asp-action="List" asp-route-orderby="mileage">Mileage</a>
+            </th>
+            <th><a asp-action="List" asp-route-orderby="color">Color</a></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in @Model)
+        {
+        <tr>
+            <td>@car.ID</td>
+            <td>@car.Year</td>
+            <td>@car.MakeModel</td>
+            <td>@car.Price</td>
+            <td>@car.Mileage</td>
+            <td>@car.Color</td>
+
+            <td>
+                <a class="btn btn-primary" asp-controller="Car" asp-action="Detail"
+                   asp-route-id="@car.ID">View</a>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Home</a>
