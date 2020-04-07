@@ -11,7 +11,7 @@ namespace ScofieldAsg5Dealer.Models
 
         public static void setIDToZero()
         {
-            id = 0;
+            //id = 0;
         }
         public Car(string year, string makeModel, string price, string mileage, string color)
         {
@@ -23,7 +23,11 @@ namespace ScofieldAsg5Dealer.Models
             Mileage = int.Parse(mileage);
             Color = color;
         }
-        public Car() { }
+        public Car()
+        {
+            id++;  // Belongs to the Class, basically auto increment
+            ID = id;
+        }
        
 
 

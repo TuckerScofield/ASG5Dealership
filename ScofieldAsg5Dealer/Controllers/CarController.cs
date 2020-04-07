@@ -7,6 +7,7 @@ using ScofieldAsg5Dealer.Models;
 
 namespace ScofieldAsg5Dealer.Controllers
 {
+    //[Route("[controller]")]
     public class CarController : Controller
     {
         public IActionResult Index()
@@ -18,26 +19,33 @@ namespace ScofieldAsg5Dealer.Controllers
             int carID;
             int.TryParse(id, out carID);
 
-            DB db = new DB();
+            //DB db = new DB();
 
-            Car car = db.GetCarByID(carID);
+            Car car = DB.GetCarByID(carID);
             return View(car);
         }
 
-        [Route("Car/[action]")]
+        //[Route("~/[action]")]
+        [Route("/cars")]    // URL:  https://localhost:5001/cars
         public IActionResult List()
         {
             List<Car> cars = new List<Car>();
-            DB db = new DB();
-            cars = db.sortByYear();
+            //DB db = new DB();
+            cars = DB.sortByYear();
 
             return View(cars);
         }
 
-        [Route("Car/[action]/{orderby}")]
+        [Route("cars/list/{orderby?}")]  // URL:  https://localhost:5001/cars/list/color
 
+        //[Route("[action]/{orderby?}/{direction?}")]
+        //[Route("[action]/{id?}/{orderby?}/{direction?}")]
         public IActionResult List(string orderby)
         {
+            // Andy:  Check for null
+            if (orderby == null)
+                orderby = "";
+
             //MakeModel, Year, Price, Milage, Color
             DB.SortOrder sortOrder;
             sortOrder = DB.SortOrder.Year;
@@ -66,14 +74,16 @@ namespace ScofieldAsg5Dealer.Controllers
                     break;
             }
 
-            DB db = new DB();
-            List<Car> sortedCars = db.sortBy(sortOrder, true);
+            //DB db = new DB();
+            List<Car> sortedCars = DB.sortBy(sortOrder, true);
             return View(sortedCars);
         }
 
+        
+
         public IActionResult Search(String id)
         {
-            
+            //DB db = new DB();
             List<Car> foundCars = DB.GetCarByMakeModel(id);
             return View(foundCars);
         }

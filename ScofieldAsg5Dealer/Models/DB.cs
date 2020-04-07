@@ -5,13 +5,35 @@ using System.Threading.Tasks;
 
 namespace ScofieldAsg5Dealer.Models
 {
-    public class DB
+    public static class DB
     {
-        public enum SortOrder { ID,MakeModel, Year, Price, Mileage, Color }
+        public enum SortOrder { ID, MakeModel, Year, Price, Mileage, Color }
+        public static bool isAscYear { get; set; }
+        public static bool isAscMake { get; set; }
+        public static bool isAscModel { get; set; }
+        public static bool isAscColor { get; set; }
+        public static bool isAscPrice { get; set; }
+        public static bool isAscMile { get; set; }
+        public static bool isAscID { get; set; }
 
-        private List<Car> cars = new List<Car>();
+        private static List<Car> cars = new List<Car>();
 
-        public DB()
+        public static void addCar(Car car)
+        {
+            cars.Add(car);
+        }
+
+        public static void updateCar(Car updatedCar)
+        {
+            int id = updatedCar.ID;
+            int carIndex = 0;
+            carIndex = cars.FindIndex(o => o.ID == id);
+
+            if (carIndex > -1)
+                cars[carIndex] = updatedCar;
+        }
+
+        static DB()
         {
 
             //Add cars to the list
@@ -19,7 +41,7 @@ namespace ScofieldAsg5Dealer.Models
         }
 
         //use the enum as a parameter
-        public List<Car> sortBy(SortOrder sortOrder, bool isAcending)
+        public static List<Car> sortBy(SortOrder sortOrder, bool isAcending)
         {
             List<Car> sortedList = new List<Car>();
 
@@ -27,50 +49,64 @@ namespace ScofieldAsg5Dealer.Models
             {
                 case SortOrder.ID:
                     {
-                        if (isAcending)
+                        if (isAscID)
                             sortedList = cars.OrderBy(o => o.ID).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.ID).ToList();
+
+                        isAscID = !isAscID;
                         break;
                     }
                 case SortOrder.MakeModel:
                     {
-                        if (isAcending)
+                        if (isAscMake)
                             sortedList = cars.OrderBy(o => o.MakeModel).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.MakeModel).ToList();
+
+                        isAscMake = !isAscMake;
                         break;
                     }
                 case SortOrder.Color:
                     {
-                        if (isAcending)
+                        if (isAscColor)
                             sortedList = cars.OrderBy(o => o.Color).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.Color).ToList();
+
+                        isAscColor = !isAscColor;
                         break;
                     }
                 case SortOrder.Mileage:
                     {
-                        if (isAcending)
+                        if (isAscMile)
                             sortedList = cars.OrderBy(o => o.Mileage).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.Mileage).ToList();
+
+                        isAscMile = !isAscMile;
+
                         break;
                     }
                 case SortOrder.Year:
                     {
-                        if (isAcending)
+                        if (isAscYear)
                             sortedList = cars.OrderBy(o => o.Year).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.Year).ToList();
+
+                        isAscYear = !isAscYear;
+
                         break;
                     }
                 case SortOrder.Price:
                     {
-                        if (isAcending)
+                        if (isAscPrice)
                             sortedList = cars.OrderBy(o => o.Price).ToList();
                         else
                             sortedList = cars.OrderByDescending(o => o.Price).ToList();
+
+                        isAscPrice = !isAscPrice;
                         break;
                     }
             }
@@ -78,19 +114,22 @@ namespace ScofieldAsg5Dealer.Models
 
         }
 
-        public List<Car> sortByYear()
+        public static List<Car> sortByYear()
         {
             List<Car> sortedList = new List<Car>();
-            sortedList = cars.OrderBy(o => o.Year).ToList();
+            if (isAscYear == true)
+                sortedList = cars.OrderBy(o => o.Year).ToList();
+            else
+                sortedList = cars.OrderByDescending(o => o.Year).ToList();
 
-            sortedList = cars.OrderByDescending(o => o.Year).ToList();
+            isAscYear = !isAscYear;
 
             return sortedList;
         }
 
 
 
-        private void loadCars()
+        private static void loadCars()
         {
             cars.Add(new Car("2013", "Nissan Sentra", "8995", "84574", "Silver"));
             cars.Add(new Car("2014", "Chevrolet Spark LS", "8995", "35304", "Blue"));
@@ -149,34 +188,38 @@ namespace ScofieldAsg5Dealer.Models
             cars.Add(new Car("1994", "Saab 900S", "2100", "64124", "Forest Green"));
 
 
-            Car.setIDToZero();
+           // Car.setIDToZero();
 
         }
 
        
 
-        public  Car GetCarByID(int id)
+        public static Car GetCarByID(int id)
         {
-            Car foundCar = new Car();
+            //Car foundCar = new Car();
+            Car foundCar;
 
-            foreach (Car c in cars)
-            {
-                if (c.ID == id)
-                    foundCar = c;
-            }
+            //foreach (Car c in cars)
+            //{
+            //    if (c.ID == id)
+            //        foundCar = c;
+            //}
+            foundCar = cars.Find(o => o.ID == id);
             return foundCar;
         }
 
         public static List<Car> GetCarByMakeModel(string MakeModel)
         {
             List<Car> foundCars = new List<Car>();
-            List<Car> cars = new List<Car>();
+            //List<Car> cars = new List<Car>();
 
-            //List<Car> allCars = DB.GetCars();
+            //DB db = new DB();
+
+            List<Car> cars = DB.sortByYear();
 
             foreach (Car c in cars)
             {
-                if (c.MakeModel == MakeModel)
+                if (c.MakeModel.Contains( MakeModel))
                     foundCars.Add(c);
             }
             return foundCars;

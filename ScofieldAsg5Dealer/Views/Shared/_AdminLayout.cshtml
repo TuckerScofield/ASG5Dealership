@@ -1,11 +1,17 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - ScofieldAsg5Dealer</title>
+    <title>@ViewBag.Title - ScofieldAsg5Dealer - Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", false)
 </head>
 <body>
     <header>
@@ -19,19 +25,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="List">View Cars</a>
-                       
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Car" asp-action="List">View Inventory</a>
+                            
                         </li>
                     </ul>
-                </div>
-                <div class="navbar-nav navbar-right">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
                 </div>
             </div>
         </nav>

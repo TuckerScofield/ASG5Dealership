@@ -3,7 +3,7 @@
     ViewBag.Title = "Car List";
 }
 
-<h1>Car List</h1>
+<h1>Car List (non admin)</h1>
 <div>
     <h3>Search cars by make/model:</h3>
     <form method="post" asp-controller="Car" asp-action="Search">
@@ -42,8 +42,8 @@
             <td>@car.ID</td>
             <td>@car.Year</td>
             <td>@car.MakeModel</td>
-            <td>@car.Price</td>
-            <td>@car.Mileage</td>
+            <td>@car.Price.ToString("C")</td>
+            <td>@car.Mileage.ToString("N0")</td>
             <td>@car.Color</td>
 
             <td>

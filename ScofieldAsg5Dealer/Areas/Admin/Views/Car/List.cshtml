@@ -1,0 +1,43 @@
+﻿@model List<Car>
+@{
+    ViewBag.Title = "Car Management";
+}
+
+<h1>Car List Admin </h1>
+<a class="btn btn-primary" asp-action="Add">Add New Car</a>
+<table class="table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="List" asp-route-orderby="id">ID</a>
+            </th>
+            <th>
+                <a asp-action="List" asp-route-orderby="make">Make and Model</a>
+            </th>
+            <th>
+                <a asp-action="List" asp-route-orderby="price">Price</a>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in @Model)
+        {
+        <tr>
+            <td>@car.ID</td>
+            <td>@car.MakeModel</td>
+            <td>@car.Price.ToString("C")</td>
+
+            <td>
+                <a class="btn btn-primary"  asp-action="Update" asp-route-id="@car.ID">Update</a>
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@car.ID">Delete</a>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+

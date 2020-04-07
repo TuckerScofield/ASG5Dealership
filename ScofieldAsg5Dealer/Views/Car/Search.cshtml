@@ -31,20 +31,20 @@
     <tbody>
         @foreach (var car in @Model)
         {
-            <tr>
-                <td>@car.ID</td>
-                <td>@car.Year</td>
-                <td>@car.MakeModel</td>
-                <td>@car.Price</td>
-                <td>@car.Mileage</td>
-                <td>@car.Color</td>
+        <tr>
+            <td>@car.ID</td>
+            <td>@car.Year</td>
+            <td>@car.MakeModel</td>
+            <td>@car.Price.ToString("C")</td>
+            <td>@car.Mileage.ToString("N0")</td>
+            <td>@car.Color</td>
 
-                <td>
-                    <a class="btn btn-primary" asp-controller="Car" asp-action="Detail"
-                       asp-route-id="@car.ID">View</a>
-                </td>
+            <td>
+                <a class="btn btn-primary" asp-controller="Car" asp-action="Detail"
+                   asp-route-id="@car.ID">View</a>
+            </td>
 
-            </tr>
+        </tr>
         }
     </tbody>
 </table>

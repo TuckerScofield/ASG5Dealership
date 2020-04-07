@@ -48,6 +48,13 @@ namespace ScofieldAsg5Dealer
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+
+                endpoints.MapAreaControllerRoute(
+                    name: "admin",
+                    areaName: "Admin",
+                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
