@@ -3,43 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ScofieldAsg5Dealer.Models;
+using ScofieldAsg10Cars.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace ScofieldAsg5Dealer.Controllers
+namespace ScofieldAsg10Cars.Controllers
 {
-    //[Route("[controller]")]
     public class CarController : Controller
     {
+        private CarContext context { get; set; }
+        public CarController(CarContext ctx)
+        {
+            context = ctx;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Detail(string id)
+        public IActionResult Detail(int id)
         {
-            int carID;
-            int.TryParse(id, out carID);
-
-            //DB db = new DB();
-
-            Car car = DB.GetCarByID(carID);
+            var car = context.Cars.Find(id);
             return View(car);
         }
 
-        //[Route("~/[action]")]
         [Route("/cars")]    // URL:  https://localhost:5001/cars
         public IActionResult List()
         {
-            List<Car> cars = new List<Car>();
-            //DB db = new DB();
-            cars = DB.sortByYear();
-
+            var cars = context.Cars.OrderBy(c => c.Year).ToList();
             return View(cars);
         }
 
         [Route("cars/list/{orderby?}")]  // URL:  https://localhost:5001/cars/list/color
-
-        //[Route("[action]/{orderby?}/{direction?}")]
-        //[Route("[action]/{id?}/{orderby?}/{direction?}")]
         public IActionResult List(string orderby)
         {
             // Andy:  Check for null
@@ -47,44 +41,42 @@ namespace ScofieldAsg5Dealer.Controllers
                 orderby = "";
 
             //MakeModel, Year, Price, Milage, Color
-            DB.SortOrder sortOrder;
-            sortOrder = DB.SortOrder.Year;
-            
+            CarContext.SortOrder sortOrder;
+            sortOrder = CarContext.SortOrder.Year;
+
 
             orderby = orderby.ToLower();
             switch (orderby)
             {
                 case "id":
-                    sortOrder = DB.SortOrder.ID;
+                    sortOrder = CarContext.SortOrder.ID;
                     break;
                 case "make":
-                    sortOrder = DB.SortOrder.MakeModel;
+                    sortOrder = CarContext.SortOrder.MakeModel;
                     break;
                 case "mileage":
-                    sortOrder = DB.SortOrder.Mileage;
+                    sortOrder = CarContext.SortOrder.Mileage;
                     break;
                 case "price":
-                    sortOrder = DB.SortOrder.Price;
+                    sortOrder = CarContext.SortOrder.Price;
                     break;
                 case "color":
-                    sortOrder = DB.SortOrder.Color;
+                    sortOrder = CarContext.SortOrder.Color;
                     break;
                 case "year":
-                    sortOrder = DB.SortOrder.Year;
+                    sortOrder = CarContext.SortOrder.Year;
                     break;
             }
 
-            //DB db = new DB();
-            List<Car> sortedCars = DB.sortBy(sortOrder, true);
+            List<Car> sortedCars = CarContext.sortBy(sortOrder, true);
             return View(sortedCars);
         }
 
-        
+
 
         public IActionResult Search(String id)
         {
-            //DB db = new DB();
-            List<Car> foundCars = DB.GetCarByMakeModel(id);
+            List<Car> foundCars = CarContext.GetCarByMakeModel(id);
             return View(foundCars);
         }
     }

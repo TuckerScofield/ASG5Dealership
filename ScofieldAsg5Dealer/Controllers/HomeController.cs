@@ -5,19 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ScofieldAsg5Dealer.Models;
+using ScofieldAsg10Cars.Models;
 
-namespace ScofieldAsg5Dealer.Controllers
+namespace ScofieldAsg10Cars.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private CarContext context { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(CarContext ctx)
         {
-            _logger = logger;
+            context = ctx;
         }
-
         public IActionResult Index()
         {
             return View();
@@ -28,10 +27,5 @@ namespace ScofieldAsg5Dealer.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

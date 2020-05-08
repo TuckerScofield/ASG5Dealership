@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Car>
 @{
     ViewBag.Title = "Car List";
 }
@@ -15,9 +15,6 @@
 <table class="table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                <a asp-action="List" asp-route-orderby="id">ID</a>
-            </th>
             <th>
                 <a asp-action="List" asp-route-orderby="year">Year</a>
             </th>
@@ -39,7 +36,6 @@
         @foreach (var car in @Model)
         {
         <tr>
-            <td>@car.ID</td>
             <td>@car.Year</td>
             <td>@car.MakeModel</td>
             <td>@car.Price.ToString("C")</td>

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using ScofieldAsg10Cars.Models;
 
 namespace ScofieldAsg5Dealer
 {
@@ -24,6 +26,10 @@ namespace ScofieldAsg5Dealer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddRouting(options => { options.LowercaseUrls = true; options.AppendTrailingSlash = true; });
+
+            services.AddDbContext<CarContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CarContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,21 +49,18 @@ namespace ScofieldAsg5Dealer
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-
+                // route for Admin area
                 endpoints.MapAreaControllerRoute(
                     name: "admin",
                     areaName: "Admin",
                     pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
+                //default route
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
             });
         }
     }

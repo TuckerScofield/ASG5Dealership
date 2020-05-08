@@ -17,8 +17,6 @@
             <th>
                 <a asp-action="List" asp-route-orderby="price">Price</a>
             </th>
-            <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -28,14 +26,6 @@
             <td>@car.ID</td>
             <td>@car.MakeModel</td>
             <td>@car.Price.ToString("C")</td>
-
-            <td>
-                <a class="btn btn-primary"  asp-action="Update" asp-route-id="@car.ID">Update</a>
-            </td>
-            <td>
-                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@car.ID">Delete</a>
-            </td>
-
         </tr>
         }
     </tbody>
